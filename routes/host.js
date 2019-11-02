@@ -33,6 +33,42 @@ router.post('/newHost', function(req, res) {
     
 });
 
+
+//the login route
+router.post('/joinGroup', function(req, res) {
+    //grab credentials from request
+    let nickname = req.body.nickname;
+    let group_code = req.body.group_code;
+
+    //query db with username and password 
+
+    knex('groups')
+    .where('code', group_code)
+    .first()
+    .then((group)=>{ //if we find group then success
+        if(group){
+            knex('users')
+            .insert(
+                {
+                    nickname,
+                    group_id: group.id
+                }
+            )
+            res.status(200).json({message: "succesfully added to group", auth: true})
+        }
+        else{
+            res.status(200).json({message: "Group name already taken", auth: false})
+        }
+    })
+    .catch(err=>{ //catch err
+        console.log(err);
+        res.status(500).json(err);
+    })
+    
+});
+
+
+
 function uuidv4() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
       var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
