@@ -1,0 +1,27 @@
+{
+  "name": "partyup",
+  "version": "1.0.0",
+  "description": "backend for music voting app",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redha1419/PartyUp.git"
+  },
+  "keywords": [
+    "music"
+  ],
+  "author": "reza,shaz,fahad,pav",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/redha1419/PartyUp/issues"
+  },
+  "homepage": "https://github.com/redha1419/PartyUp#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "knex": "^0.20.1",
+    "pg": "^7.12.1"
+  }
+}
