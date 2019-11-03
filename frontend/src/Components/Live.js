@@ -11,7 +11,6 @@ import Avatar from '@material-ui/core/Avatar';
 import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios'
 import {TokenContext} from '../contexts/TokenContext';
-import SpotifyWebPlayer from 'react-spotify-web-playback';
 
 const styles = theme => ({
     '@global': {
@@ -33,21 +32,22 @@ class Livefeed extends React.Component{
         super(props);
         this.state = {
             my_list: [],
-            status: 0
+           // status: 0
         };
     }
 
     componentDidUpdate(prevProps, prevState, snapshot){
-      console.log(prevState)
+      console.log(prevProps)
       let my_token = 'Bearer ' + this.context.token;
       console.log(my_token)
   
-      if(prevState.my_list.length >= 0 && prevState.status == 100 ){
+      if(prevState.my_list.length > 0 && prevProps.position >= 100 ){
+
         axios({
           method: 'put',
           url: 'https://api.spotify.com/v1/me/player/play',
           data: {
-            uris: ['spotify:track:'+this.state.my_list[0].id],
+            uris: ['spotify:track:'+prevState.my_list[0].id],
           },
           headers:{
             'Content-Type':'application/json',
@@ -55,9 +55,17 @@ class Livefeed extends React.Component{
           }
         })
         .then(res=>{
-          console.log("QUWUWUW")
+          console.log("SENT INADM")
+          axios.post('http://localhost:3001/popSong',{
+            group_code: this.context.code,
+            id: prevState.my_list[0].id
+          })
+          .then((res)=>{
+            console.log("yooo")
+          })
+  
           console.log(res)
-          this.setState({status: 0})
+          //this.setState({status: 0})
         })
       }
 
@@ -74,8 +82,13 @@ class Livefeed extends React.Component{
                   //res.data.songs = [{id:"n;jkdfbj;kafbj;knf", title:"old town roads", artist:"lil Nas X"},{...}]
                   // res.data.songs[i].id ==
                   //console.log(res.data.songs)
-                  let temp = res.data.songs.sort((a, b) => (a.votes > b.votes) ? -1 : 1)
-                  this.setState({my_list: temp})  
+                  if(res.data.songs.length >0){
+                    let temp = res.data.songs.sort((a, b) => (a.votes > b.votes) ? -1 : 1)
+                    this.setState({my_list: temp})  
+                  }else{
+                    this.setState({my_list: []})  
+                  }
+
                 })
                 .catch(err =>{  //otherwise print error
                 console.log(err)
@@ -107,6 +120,7 @@ class Livefeed extends React.Component{
   queueUp(){
     //remove song from db (reza)
     //play new song
+    /*
     console.log("I GOT CALLED")
     if(this.state.status < 97){
       return
@@ -134,6 +148,7 @@ class Livefeed extends React.Component{
       console.log("QUWUWUW")
       console.log(res)
     })
+    */
 
   }
 
@@ -165,20 +180,11 @@ class Livefeed extends React.Component{
   }
 
     render(){
-      if(this.state.status > 97){
-        this.queueUp.bind(this)
-      }
+      console.log(this.state.my_list)
         const classes = withStyles();
         return (
           <List dense className={classes.paper}>
-            {this.state.status}
-            {this.context.token && this.state.my_list.length >= 1 && (
-                    <SpotifyWebPlayer
-                    token={this.context.token}
-                    uris={['spotify:artist:'+this.state.my_list[0].id]}
-                    callback={(state)=>{this.setState({status: state.position})}}
-                />
-          )}
+            {/*this.state.status*/}
           {this.mapList()}
           </List>
         );

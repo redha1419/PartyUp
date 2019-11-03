@@ -3,6 +3,51 @@ const router = new express.Router();
 const knex = require('../db/knex')
 const axios = require('axios')
 
+router.post('/popSong', function(req,res){
+    console.log("got yeeted")
+    let group_code = req.body.group_code;
+    let song_id = req.body.id;
+    knex('groups')
+    .where('code', group_code)
+    .first()
+    .then(group=>{
+        if(group){
+            //delete
+            /*
+            let my_list = []
+            if(group.voted_songs.songs.length > 0){
+                my_list = group.voted_songs.songs.sort((a, b) => (a.votes > b.votes) ? -1 : 1);
+                my_list.shift()
+            }
+            */
+           
+            /*
+           for(let i=0; i<group.voted_songs.songs.length; i++){
+                if(song_id == group.voted_songs.songs[i].id){
+                    group.voted_songs.songs.splice(i, 1);
+                }
+           }
+           */
+           
+
+            knex('groups')
+            .where('code', group_code)
+            .update('voted_songs', {songs:[]})
+            .then(()=>{
+                res.status(200).json({message: "succesfully deleted", auth: true})
+            })
+            .catch(err=>{
+                console.log(err);
+                res.status(500).json(err);
+            })
+        }
+    })
+    .catch(err=>{
+        console.log(err);
+        res.status(500).json(err);
+    })
+})
+
 //the login route
 router.post('/upVote', function(req, res) {
     //grab credentials from request

@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios'
+import {TokenContext} from '../contexts/TokenContext';
 
 
 const styles = theme => ({
@@ -53,6 +54,7 @@ const styles = theme => ({
 });
 
 class UserPage extends React.Component {
+  static contextType = TokenContext;
   constructor(props){
     super(props)
     this.state ={
@@ -70,7 +72,8 @@ class UserPage extends React.Component {
       .then( res =>{  //successful request to backend - set parameters
         console.log(res)
         if(res.data.auth){
-          this.props.history.push('/')
+          this.context.setCode(this.state.group_code)
+          this.props.history.push('/dashboard')
         }
       })
       .catch(err =>{  //otherwise print error
