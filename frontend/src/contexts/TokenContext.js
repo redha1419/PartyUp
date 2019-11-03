@@ -19,7 +19,7 @@ class TokenContextProvier extends Component {
         this.setState({auth : true, nickname: nickname});
     }
     unAuthenticate = () => {
-        this.setState({auth : false, username: ""});
+        this.setState({auth : false, nickname: ""});
     }
     render(){
         return (

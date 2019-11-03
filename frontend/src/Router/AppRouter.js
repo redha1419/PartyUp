@@ -3,9 +3,7 @@ import { BrowserRouter, Route, Switch, Link, NavLink } from 'react-router-dom';
 import VerifyHostPage from '../Components/VerifyHostPage';
 import HomePage from '../Components/HomePage';
 import UserPage from '../Components/UserPage';
-//import HelpPage from '../components/HelpPage';
-//import NotFoundPage from '../components/NotFoundPage';
-//import Header from '../components/Header';
+import DashboardPage from '../Components/Tabs';
 import TokenContextProvider from '../contexts/TokenContext';
 
 const AppRouter = () => (
@@ -16,6 +14,7 @@ const AppRouter = () => (
         <Route path="/" component={HomePage} exact={true}/>
         <Route path="/verify" component={VerifyHostPage} />
         <Route path="/user" component={UserPage} />
+        <Route path="/dashboard" component={DashboardPage} />
         </TokenContextProvider>
       </Switch>
     </div>
