@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import '../App.css';
 import SpotifyWebPlayer from 'react-spotify-web-playback';
+import {TokenContext} from '../contexts/TokenContext';
 
 const styles = theme => ({
   button: {
@@ -16,7 +17,7 @@ const styles = theme => ({
 
 export const clientId = "ca01bcb9c7bb4fcba110e037d4206258"
 export const authEndpoint = 'https://accounts.spotify.com/authorize?';
-export const redirectUri = "http://localhost:3000/verify/";
+export const redirectUri = "http://localhost:3000/verify";
 export const scopes = [
   "streaming",
   "user-read-email",
@@ -46,11 +47,14 @@ const hash = window.location.hash
 window.location.hash = "";
 
 class HomePage extends React.Component {
+  //static contextType = TokenContext;
   constructor(props){
     super(props)
+    
     this.state ={
       token: ""
     }
+  
   }
   componentDidMount() {
     // Set token
@@ -64,6 +68,7 @@ class HomePage extends React.Component {
     }
   }
   render() {
+    console.log(this.state.token)
     const{ classes } = this.props
     return (
     <div className="App">
