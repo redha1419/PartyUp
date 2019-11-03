@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import '../App.css';
 import SpotifyWebPlayer from 'react-spotify-web-playback';
-import {TokenContext} from '../contexts/TokenContext';
+
 
 const styles = theme => ({
   button: {
