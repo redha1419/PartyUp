@@ -12,6 +12,8 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios'
+
 
 const styles = theme => ({
   '@global': {
@@ -53,7 +55,30 @@ const styles = theme => ({
 class UserPage extends React.Component {
   constructor(props){
     super(props)
+    this.state ={
+      nickname: "",
+      group_code: ""
+    }
   }
+  createUser(e){
+    e.preventDefault(); 
+
+    axios.post('http://localhost:3001/joinGroup',  {
+      nickname: this.state.nickname,
+      group_code: this.state.group_code
+      })
+      .then( res =>{  //successful request to backend - set parameters
+        console.log(res)
+        if(res.data.auth){
+          this.props.history.push('/')
+        }
+      })
+      .catch(err =>{  //otherwise print error
+        console.log(err)
+    }) 
+
+  }
+  
   render(){
   const{ classes } = this.props
   return (
@@ -77,6 +102,8 @@ class UserPage extends React.Component {
             name="NickName"
             autoComplete="NickName"
             autoFocus
+            value = {this.state.nickname}
+            onChange={(e) => {this.setState({nickname: e.target.value})}}
           />
           <TextField
             variant="outlined"
@@ -88,13 +115,17 @@ class UserPage extends React.Component {
             type="Code"
             id="Code"
             autoComplete="current-code"
+            value = {this.state.group_code}
+            onChange={(e) => {this.setState({group_code: e.target.value})}}
           />
+
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className= {classes.root}
+            onClick={this.createUser.bind(this)}
           >
             Join
           </Button>

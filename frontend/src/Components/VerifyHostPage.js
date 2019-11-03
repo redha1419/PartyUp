@@ -79,7 +79,6 @@ class VerifyHostPage extends React.Component {
   }
   createGroup(e){
     e.preventDefault(); 
-
     axios.post('http://localhost:3001/newHost',  {
       group_name: this.state.group_name,
       token: this.state.token
