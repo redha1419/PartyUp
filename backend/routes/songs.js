@@ -1,6 +1,7 @@
 const express = require('express');
 const router = new express.Router();
 const knex = require('../db/knex')
+const axios = require('axios')
 
 //the login route
 router.post('/voteSong', function(req, res) {
@@ -58,7 +59,7 @@ router.post('/voteSong', function(req, res) {
     })  
 });
 
-
+/*
 router.post('/getSong', function(req,res){
     let group_code = req.body.group_code
 
@@ -69,6 +70,57 @@ router.post('/getSong', function(req,res){
         
     })
 });
+*/
+
+router.post('/search', function(req,res){
+    let search = req.body.search;
+    let group_code = req.body.group_code;
+
+    //grab the group token
+    knex('groups')
+    .where('code', group_code)
+    .first()
+    .then(group=>{
+        if(group){
+            //my magic token
+            let spotify_token = 'Bearer ' + group.spotify_token;
+            let q = search; 
+            axios.get('https://api.spotify.com/v1/search/',{
+                params:{
+                    q,
+                    type: 'track',
+                    limit: '5'
+                },
+                headers: {
+                    'Authorization': spotify_token
+                }
+            })
+            .then(songs=>{
+                let clean_list = [];
+                for (let i =0; i<songs.tracks.items.length(); i++){
+                    clean_list.push({
+                        artist: songs.tracks.items[i].artists[0].artist,
+                        id: songs.tracks.items[i].id,
+                        title: songs.tracks.items[i].name
+                    })
+                }
+                res.status(200).json({songs: clean_list})
+            })
+            .catch(err=>{
+                console.log(err)
+                res.status(403).json({message: "Couldnt get search results from spotify?"})
+            })
+        }
+        else{
+            
+        }
+    })
+    .catch(err=>{
+        console.log(err)
+        res.status(403).json({message: "Database error?"})
+    })
+
+})
 
 function updateVote(old_vote, song){
     // my vote song structure : {id: "some_id", votes: #}
