@@ -46,7 +46,7 @@ class InputWithIcon extends React.Component {
             })
             .then( res =>{  //successful request to backend - set parameters
             console.log(res)
-            //res.data.songs = [{id:"n;jkdfbj;kafbj;knf", title:"old town roads", artist:"lil Nas X"},{...}]
+            //res.data.songs = [{id:"n;jkdfbj;kafbj;knf", title:"old town roads", artist:"lil Nas X", image:""},{...}]
            // res.data.songs[i].id ==
             this.setState({my_list: res.data.songs})
 

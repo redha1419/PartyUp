@@ -91,7 +91,7 @@ class UserPage extends React.Component {
         <Avatar className={classes.avatar}>
         <MusicNoteIcon />
         </Avatar>
-        <Typography className={classes.root1} component="h1" variant="h5">
+        <Typography className={classes} component="h1" variant="h5">
           User Sign In 
         </Typography>
         <form className={classes.form} noValidate>

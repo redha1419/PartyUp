@@ -57,7 +57,7 @@ class CheckboxListSecondary extends React.Component {
                 <ListItemAvatar>
                   <Avatar
                     alt={`Avatar n°${value + 1}`}
-                    src={`/static/images/avatar/${value + 1}.jpg`}
+                    src={`${value.img}`} //value.image
                   />
                 </ListItemAvatar>
                 <ListItemText id={labelId} primary={`${value.title}`}

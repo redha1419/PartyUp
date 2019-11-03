@@ -137,7 +137,8 @@ router.post('/search', function(req,res){
                     clean_list.push({
                         artist: songs.data.tracks.items[i].artists[0].name,
                         id: songs.data.tracks.items[i].id,
-                        title: songs.data.tracks.items[i].name
+                        title: songs.data.tracks.items[i].name,
+                        img: songs.data.tracks.items[i].album.images[2].url
                     })
                 }
                 res.status(200).json({songs: clean_list})
