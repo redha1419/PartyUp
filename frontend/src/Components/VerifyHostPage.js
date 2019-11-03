@@ -11,6 +11,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios'
 
 const styles = theme => ({
   '@global': {
@@ -37,9 +38,56 @@ const styles = theme => ({
   },
 });
 
+// Get the hash of the url
+const hash = window.location.hash
+  .substring(1)
+  .split("&")
+  .reduce(function(initial, item) {
+    if (item) {
+      var parts = item.split("=");
+      initial[parts[0]] = decodeURIComponent(parts[1]);
+    }
+    return initial;
+  }, {});
+
+window.location.hash = "";
+
 class VerifyHostPage extends React.Component {
   constructor(props){
     super(props)
+    this.state ={
+      token: "",
+      group_name: ""
+    }
+  }
+  componentDidMount() {
+    // Set token
+    let _token = hash.access_token;
+    console.log(_token)
+    if (_token) {
+      // Set token
+      this.setState({
+        token: _token
+      });
+    }
+  }
+
+  createGroup(e){
+
+    axios.post('http://localhost:3001/newHost',  {
+      group_name: this.state.group_name,
+      token: this.state.token
+      })
+      .then( res =>{  //successful request to backend - set parameters
+        console.log(res)
+        if(res.data.auth){
+          this.props.history.push('/')
+        }
+      })
+      .catch(err =>{  //otherwise print error
+        console.log(err)
+    }) 
+
   }
   render(){
   const{ classes } = this.props
@@ -51,7 +99,7 @@ class VerifyHostPage extends React.Component {
         <Avatar className={classes.avatar}>
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in to Apple Music
+          Create a group name!
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
@@ -59,28 +107,18 @@ class VerifyHostPage extends React.Component {
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            label="Group name"
+            autoComplete="Group Name"
             autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
+            value={this.state.group_name}
+            onChange={(e)=>{this.setState({group_name: e.target.value})}}
           />
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
+            onClick={this.createGroup.bind(this)}
             className={classes.submit}
           >
             Sign In

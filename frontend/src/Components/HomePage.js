@@ -3,7 +3,6 @@ import logo from '../logo.svg';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import '../App.css';
-import axios from 'axios'
 import SpotifyWebPlayer from 'react-spotify-web-playback';
 
 const styles = theme => ({
@@ -17,7 +16,7 @@ const styles = theme => ({
 
 export const clientId = "ca01bcb9c7bb4fcba110e037d4206258"
 export const authEndpoint = 'https://accounts.spotify.com/authorize?';
-export const redirectUri = "http://localhost:3000";
+export const redirectUri = "http://localhost:3000/verify/";
 export const scopes = [
   "streaming",
   "user-read-email",
@@ -26,17 +25,12 @@ export const scopes = [
   "user-modify-playback-state",
   "app-remote-control",
   "user-modify-playback-state",
-"user-read-currently-playing",
-"user-read-playback-state"
+  "user-read-currently-playing",
+  "user-read-playback-state"
 ];
 
 // Get 
 
-
-//https://accounts.spotify.com/authorizeclient_id=508e71ca079c47459d2e61a4fb3ca5fe&redirect_uri=http://localhost:3000/verify&scope=user-read-currently-playing%20user-read-playback-state&response_type=token&show_dialog=true
-
-
-//https://accounts.spotify.com/authorize/client_id=508e71ca079c47459d2e61a4fb3ca5fe&redirect_uri=http://localhost:3000&scope=user-read-currently-playing%20user-read-playback-state&response_type=token&show_dialog=true
 // Get the hash of the url
 const hash = window.location.hash
   .substring(1)

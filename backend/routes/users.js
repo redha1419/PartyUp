@@ -6,6 +6,7 @@ const knex = require('../db/knex')
 router.post('/newHost', function(req, res) {
     //grab credentials from request
     let name = req.body.group_name;
+    let spotify_token =  req.body.token;
 
     //query db with username and password 
 
@@ -16,6 +17,7 @@ router.post('/newHost', function(req, res) {
             voted_songs: {
                 songs:[]
             }, 
+            spotify_token,
             code: uuidv4() 
         }
     )
