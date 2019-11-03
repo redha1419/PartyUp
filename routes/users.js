@@ -13,7 +13,9 @@ router.post('/newHost', function(req, res) {
     .insert(
         {
             name: name,
-            voted_songs: {}, 
+            voted_songs: {
+                songs:[]
+            }, 
             code: uuidv4() 
         }
     )
@@ -54,10 +56,16 @@ router.post('/joinGroup', function(req, res) {
                     group_id: group.id
                 }
             )
-            res.status(200).json({message: "succesfully added to group", auth: true})
+            .then(()=>{
+                res.status(200).json({message: "succesfully added to group", auth: true})
+            })
+            .catch((err=>{
+                console.log(err)
+                res.status(200).json({message: "Nickname taken or group code doesnt exist", auth: false})
+            }))
         }
         else{
-            res.status(200).json({message: "Group name already taken", auth: false})
+            res.status(200).json({message: "group code doesnt exist", auth: false})
         }
     })
     .catch(err=>{ //catch err
@@ -69,6 +77,8 @@ router.post('/joinGroup', function(req, res) {
 
 
 
+
+
 function uuidv4() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
       var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -76,3 +86,4 @@ function uuidv4() {
     });
   }
   
+  module.exports = router;
