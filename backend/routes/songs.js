@@ -10,14 +10,13 @@ router.post('/voteSong', function(req, res) {
     let song = req.body.song;
     let group_code = req.body.group_code;
 
-    //query db with username and password 
-
+    //query db with group code  
     knex('groups')
     .where('code', group_code)
     .first()
     .then(group=>{
         if(group){
-            //make sure person is in this group
+            //if valid group_code, grab nickname to check if your in there
             knex('users')
             .where(
                 {
@@ -27,20 +26,22 @@ router.post('/voteSong', function(req, res) {
             )
             .first()
             .then(user=>{
-                //now take song and update the group json
-                new_vote = updateVote(group.voted_songs, song)
-                knex('projects')
-                .where('id', group.id)
-                .update('voted_songs', new_vote)
-                .then(()=>{
-                    //success
-                    res.status(200).json({message: "succesfully voted", auth: true})
-                })
-                .catch(err=>{
-                    //err
-                    console.log(err);
-                    res.status(500).json(err);
-                })
+                if(user){
+                    //now take song and update the group json
+                    new_vote = updateVote(group.voted_songs, song)
+                    knex('projects')
+                    .where('id', group.id)
+                    .update('voted_songs', new_vote)
+                    .then(()=>{
+                        //success
+                        res.status(200).json({message: "succesfully voted", auth: true})
+                    })
+                    .catch(err=>{
+                        //err
+                        console.log(err);
+                        res.status(500).json(err);
+                    })
+                }
             })
             .catch(err=>{
                 //err
@@ -60,7 +61,7 @@ router.post('/voteSong', function(req, res) {
 });
 
 /*
-router.post('/getSong', function(req,res){
+router.post('/getSongs', function(req,res){
     let group_code = req.body.group_code
 
     knex('groups')
@@ -79,7 +80,7 @@ router.post('/search', function(req,res){
     //grab the group token
     knex('groups')
     .where('code', group_code)
-    .first()
+    .firsts()
     .then(group=>{
         if(group){
             //my magic token
@@ -125,7 +126,7 @@ router.post('/search', function(req,res){
 function updateVote(old_vote, song){
     // my vote song structure : {id: "some_id", votes: #}
     for(let i=0; i<old_vote.length(); i++){
-        if(old_vote.songs[i].id === song){
+        if(old_vote.songs[i].id === song.id){
             old_vote.songs[i].votes ++;
             return old_vote;
         }
