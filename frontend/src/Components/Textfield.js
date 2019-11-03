@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import ExpandLessRoundedIcon from '@material-ui/icons/ExpandLessRounded';
 import Avatar from '@material-ui/core/Avatar';
 import axios from 'axios'
+import {TokenContext} from '../contexts/TokenContext';
 
 const styles = theme => ({
     '@global': {
@@ -25,16 +26,25 @@ const styles = theme => ({
 })
 
 class CheckboxListSecondary extends React.Component {
+    static contextType = TokenContext;
     constructor(props){
         super(props);
     }
-    upVote(event, value){
-        console.log(event)
+    upVote(value, event){
         console.log(value)
-        console.log("YO")
-       // axios.post('http://localhost:3001/upVote',{
 
-        //})
+        axios.post('http://localhost:3001/upVote',  {
+          group_code: this.context.code,
+          song: value
+          })
+          .then( res =>{  //successful request to backend - set parameters
+          console.log(res)
+            //res.data.songs = [{id:"n;jkdfbj;kafbj;knf", title:"old town roads", artist:"lil Nas X"},{...}]
+            console.log("good")
+          })
+          .catch(err =>{  //otherwise print error
+          console.log(err)
+      })
     }
     mapList(){
         const{ classes } = this.props
@@ -53,7 +63,7 @@ class CheckboxListSecondary extends React.Component {
                 <ListItemText id={labelId} primary={`${value.title}`}
                 secondary={`${value.artist}`} />
                 <ListItemSecondaryAction >
-                <Button  edge="end" aria-label="comments" key={value.id} onClick={this.upVote.bind(this, value.id)}>
+                <Button  edge="end" aria-label="comments" key={value.id} onClick={this.upVote.bind(this, value)}>
                      < ExpandLessRoundedIcon/>
                 </Button>
                 </ListItemSecondaryAction>
@@ -61,8 +71,10 @@ class CheckboxListSecondary extends React.Component {
             )
         });
         return my_array;
-
     }
+
+
+
     render(){
         console.log(this.props.listToShow)
         const{ classes } = this.props

@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios'
-//import {AuthContext} from './contexts/AuthContext';
+import {TokenContext} from '../contexts/TokenContext';
 
 const styles = theme => ({
   '@global': {
@@ -54,6 +54,7 @@ const hash = window.location.hash
 window.location.hash = "";
 
 class VerifyHostPage extends React.Component {
+  static contextType = TokenContext;
   constructor(props){
     super(props)
     this.state ={
@@ -70,11 +71,12 @@ class VerifyHostPage extends React.Component {
       this.setState({
         token: _token
       });
+      this.context.setToken(_token)
     }
   }
 
   createGroup(e){
-
+    e.preventDefault();
     axios.post('http://localhost:3001/newHost',  {
       group_name: this.state.group_name,
       token: this.state.token
@@ -82,7 +84,8 @@ class VerifyHostPage extends React.Component {
       .then( res =>{  //successful request to backend - set parameters
         console.log(res)
         if(res.data.auth){
-          this.props.history.push('/')
+          this.context.setCode(res.data.code)
+          this.props.history.push('/dashboard')
         }
       })
       .catch(err =>{  //otherwise print error

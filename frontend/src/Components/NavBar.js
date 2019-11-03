@@ -10,6 +10,7 @@ import SearchSharpIcon from '@material-ui/icons/SearchSharp';
 import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios'
 import CheckboxListSecondary from './Textfield'
+import {TokenContext} from '../contexts/TokenContext';
 
 
 const styles = theme => ({
@@ -28,6 +29,7 @@ const styles = theme => ({
 });
 
 class InputWithIcon extends React.Component {
+    static contextType = TokenContext;
     constructor(props){
         super(props)
         this.state = {
@@ -39,8 +41,8 @@ class InputWithIcon extends React.Component {
 
         e.preventDefault(); 
         axios.post('http://localhost:3001/search',  {
-            group_name: "123456",
-            search_name: this.state.search_name
+            group_code: this.context.code,
+            search: this.state.search_name
             })
             .then( res =>{  //successful request to backend - set parameters
             console.log(res)

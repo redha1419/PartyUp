@@ -21,9 +21,15 @@ class TokenContextProvier extends Component {
     unAuthenticate = () => {
         this.setState({auth : false, nickname: ""});
     }
+    setCode = (code) => {
+        this.setState({code : code});
+    }
+    unSetCode = () => {
+        this.setState({code : ""});
+    }
     render(){
         return (
-        <TokenContext.Provider value={{...this.state, authenticate: this.authenticate, unAuthenticate: this.unAuthenticate, setToken: this.setToken}}>
+        <TokenContext.Provider value={{...this.state, authenticate: this.authenticate, unAuthenticate: this.unAuthenticate, setToken: this.setToken, unSetToken: this.unSetToken, setCode: this.setCode, unSetCode: this.unSetCode}}>
             {this.props.children}
         </TokenContext.Provider>);
     };

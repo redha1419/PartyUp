@@ -89,12 +89,6 @@ class HomePage extends React.Component {
       <Button variant="contained" color="secondary" className={classes.button} onClick={()=>{this.props.history.push('/user')}}>
       Joining a Party?
       </Button>
-          {this.state.token && (
-                    <SpotifyWebPlayer
-                    token={this.state.token}
-                    uris={['spotify:artist:6HQYnRM4OzToCYPpVBInuU']}
-                />
-          )}
         
         
       </header>
