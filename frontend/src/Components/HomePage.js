@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import '../App.css';
 import SpotifyWebPlayer from 'react-spotify-web-playback';
-
+require('dotenv').config()
 
 const styles = theme => ({
   button: {
@@ -17,7 +17,7 @@ const styles = theme => ({
 
 export const clientId = "ca01bcb9c7bb4fcba110e037d4206258"
 export const authEndpoint = 'https://accounts.spotify.com/authorize?';
-export const redirectUri = "http://localhost:3000/verify";
+export const redirectUri = process.env.BACKEND_URL + "/verify";
 export const scopes = [
   "streaming",
   "user-read-email",

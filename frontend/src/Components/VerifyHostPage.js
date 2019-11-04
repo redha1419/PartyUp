@@ -14,6 +14,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios'
 import {TokenContext} from '../contexts/TokenContext';
+require('dotenv').config()
 
 const styles = theme => ({
   '@global': {
@@ -87,7 +88,7 @@ class VerifyHostPage extends React.Component {
 
   createGroup(e){
     e.preventDefault();
-    axios.post('http://localhost:3001/newHost',  {
+    axios.post( process.env.BACKEND_URL + '/newHost',  {
       group_name: this.state.group_name,
       token: this.state.token
       })
