@@ -11,7 +11,9 @@ import ExpandLessRoundedIcon from '@material-ui/icons/ExpandLessRounded';
 import Avatar from '@material-ui/core/Avatar';
 import axios from 'axios'
 import {TokenContext} from '../contexts/TokenContext';
-require('dotenv').config()
+import dotenv from 'dotenv'
+dotenv.config()
+let BACKEND_URL="http://partyup.online"
 
 const styles = theme => ({
     '@global': {
@@ -34,7 +36,7 @@ class CheckboxListSecondary extends React.Component {
     upVote(value, event){
         console.log(value)
 
-        axios.post( process.env.BACKEND_URL + '/upVote',  {
+        axios.post(BACKEND_URL + '/upVote',  {
           group_code: this.context.code,
           song: value
           })

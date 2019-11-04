@@ -11,7 +11,9 @@ import Avatar from '@material-ui/core/Avatar';
 import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios'
 import {TokenContext} from '../contexts/TokenContext';
-require('dotenv').config()
+import dotenv from 'dotenv'
+dotenv.config()
+let BACKEND_URL="http://partyup.online"
 
 const styles = theme => ({
     '@global': {
@@ -57,7 +59,7 @@ class Livefeed extends React.Component{
         })
         .then(res=>{
           console.log("SENT INADM")
-          axios.post(process.env.BACKEND_URL + '/popSong',{
+          axios.post(BACKEND_URL + '/popSong',{
             group_code: this.context.code,
             id: prevState.my_list[0].id
           })
@@ -75,7 +77,7 @@ class Livefeed extends React.Component{
 
         this.interval = setInterval(
             () =>{
-              axios.post(process.env.BACKEND_URL + '/getSongs',  {
+              axios.post(BACKEND_URL + '/getSongs',  {
                 group_code: this.context.code
                 })
                 .then( res =>{  //successful request to backend - set parameters
@@ -105,7 +107,7 @@ class Livefeed extends React.Component{
     upVote(value, event){
       console.log(value)
       
-      axios.post(process.env.BACKEND_URL + '/upVote',  {
+      axios.post(BACKEND_URL + '/upVote',  {
         group_code: this.context.code,
         song: value
         })

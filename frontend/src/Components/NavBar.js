@@ -11,7 +11,9 @@ import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios'
 import CheckboxListSecondary from './Textfield'
 import {TokenContext} from '../contexts/TokenContext';
-require('dotenv').config()
+import dotenv from 'dotenv'
+dotenv.config()
+let BACKEND_URL="http://partyup.online"
 
 
 const styles = theme => ({
@@ -41,7 +43,7 @@ class InputWithIcon extends React.Component {
     onSubmit = (e) => {
 
         e.preventDefault(); 
-        axios.post(process.env.BACKEND_URL + '/search',  {
+        axios.post(BACKEND_URL + '/search',  {
             group_code: this.context.code,
             search: this.state.search_name
             })
