@@ -16,7 +16,7 @@ import axios from 'axios'
 import {TokenContext} from '../contexts/TokenContext';
 import dotenv from 'dotenv'
 dotenv.config()
-let BACKEND_URL="http://35.230.179.171"
+let BACKEND_URL="http://35.230.179.171:3001"
 
 const styles = theme => ({
   '@global': {
