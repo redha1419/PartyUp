@@ -5,3 +5,11 @@ There are many problems we deal with while enjoying music in a social gathering.
 
 # What it does
 PartyUp is a webapp that brings people together through a live queue (like a radio) where party people can vote for the songs they want to hear or queue up a good song for a good time.
+
+# Screenshots
+
+![](https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/000/878/356/datas/original.png)
+
+![](https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/000/879/031/datas/original.png)
+
+![](https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/000/879/033/datas/original.png)
